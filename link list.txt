@@ -1,0 +1,107 @@
+
+
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+
+
+struct node
+{
+	int val;
+	struct node *next;	
+}part,*newptr,*head, *curr, *prev,*tmp,*tmp2;
+
+
+void main()
+{
+	int choice;
+	void insert(), create(), search();
+	
+	do
+	{
+	printf("\n Create?[1-add/2-search/-1-exit] ");
+	scanf_s("%d", &choice);fflush(stdin);
+	switch (choice)
+	{
+		case 1:
+		
+			insert();
+			break;
+		case 2:
+			search();
+			break;
+			
+		
+		default:
+			printf("invalid!");
+			break;
+	}
+
+	}while( create != -1);
+
+
+	
+	return;
+	
+}
+
+void create()
+{
+	int ctr, n;
+	//create node
+	newptr = (struct node*) malloc(sizeof(struct node)); 
+	newptr-> next = NULL;
+	//assigning value to node
+	printf("Please enter value: ");
+	scanf("%d",&n);fflush(stdin);
+	newptr->val = n;
+	
+
+}
+
+void insert()
+{
+	if(head == NULL)
+	{
+		create();
+		head = newptr;
+		curr = head;
+	}
+
+	else
+	{
+		create();
+		prev = curr; 
+		curr -> next = newptr;
+		curr = newptr;
+	}
+	
+}
+
+void search()
+{
+	int searchval;
+	printf("\nEnter value to search: ");
+	scanf("%d", &searchval);fflush(stdin);
+	tmp = NULL;
+	tmp2 = head;
+	
+
+	// dont  use head or gg
+	while( tmp2 -> val != searchval) 
+	{
+		if ( tmp2 -> val == searchval)
+		{
+			
+			break;
+		}
+		else
+		{
+			
+			tmp2 = tmp2 -> next;
+		}
+
+	}
+
+	printf ("\n Found! node is %d",tmp2 -> val);
+}
