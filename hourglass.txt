@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <conio.h>
+
+void main()
+{
+ int row,col,star=7,space=0;
+ 
+
+ for (row=1;row<=7;row++)
+ {
+
+  for (col=0;col<=space;col++)
+   printf(" ");
+  for (col=0;col<star;col++)
+   printf("*");
+  
+  printf("\n");
+
+  if(row<4)
+  {
+   space++;
+   star-=2;
+  }
+  else
+  {
+   space--;
+   star+=2;
+  }
+
+ }
+ getch();
+}

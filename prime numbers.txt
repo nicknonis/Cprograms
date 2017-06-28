@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <conio.h>
+
+int main()
+{
+	int num, ctr;
+	printf("\n Enter a number: ");
+	scanf("%d",&num);fflush(stdin);
+	for(ctr=2;ctr<num;ctr++)
+	{
+		if (num % ctr==0)
+		{
+			printf("\n Not a Prime Number");
+			getch();
+			return main();
+		}
+	}
+	printf("\Prime number, indeed.");
+	getch();
+}
