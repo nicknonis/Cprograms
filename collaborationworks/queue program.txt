@@ -1,0 +1,324 @@
+//----------------------------------------------------
+/*
+bus queue program.
+
+bus joins @ rear
+bus leaves @ front
+-------------
+|b1 |b2 |b3 |
+-------------
+^       ^
+|       |
+front    rear
+
+
+*/
+
+#include<stdlib.h>
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+
+//-------------------------------------------------
+struct node
+{
+	char bplate[8];
+	char btype[20];
+	struct node *next;
+}*start, *current, *prev, *new_node, *temp;
+//------------------------------------------------------------
+
+int total = 0;
+
+//----------------------------------------------------
+void getbus()
+{
+	printf("\nEnter the bus number plate: ");
+	gets(new_node->bplate); fflush(stdin);
+}
+//-----------------VALIDATION-----------------------------------
+void busin()
+{
+	int i;
+	struct node *tempV;
+
+	getbus();
+
+	if (total != 0)
+	{
+		for (i = 0; i <= total; i++)
+		{
+			tempV = start;
+			if (strcmp(new_node->bplate, tempV->bplate) == 0)
+			{
+				printf("This bus already exists. ");
+				i = 0;
+				getbus();
+			}
+			else
+			{
+				tempV = tempV->next;
+			}
+		}
+	}
+}
+
+//----------------------------------------------------
+void arrive()
+{
+	char choice1;
+
+
+	do
+	{
+		new_node = (struct node *)malloc(sizeof(struct node));
+
+
+
+		busin();
+		printf("\nEnter the bus type: ");
+		gets(new_node->btype); fflush(stdin);
+		new_node->next = NULL;
+
+		if (start == NULL)
+		{
+			start = new_node;
+			current = start;
+		}
+
+		else
+		{
+			prev = current;
+			current->next = new_node;
+			current = new_node;
+		}
+		total++;
+		printf("\n Do you wish to add more? [Press n to stop or any other key to add more] ");
+		choice1 = getch();
+		fflush(stdin);
+		system("cls");
+
+	} while (choice1 != 'n');
+
+}
+
+//------------------------------------------------------------------
+
+void leave()
+{
+	char confirm;
+	temp = start;
+	if (temp == NULL) //checks if queue is empty
+	{
+		printf("Error: Queue is empty. \nPress any key to return to Main.");
+		getch();
+		return;
+	}
+	else if (temp->next != NULL) //checks if this is not the last node left
+	{
+		printf("Bus leaving queue: %s", temp->bplate);
+		printf("\nContinue? Press 'y' to confirm, or any other key to return to main.");
+		confirm = getch();
+
+		if (confirm != 'y' && confirm != 'Y')
+		{
+			return;
+		}
+		system("cls");
+
+		printf("Bus has left queue: %s", temp->bplate);
+		temp = temp->next;
+		free(start);
+		start = temp;
+		getch();
+	}
+	else //failed previous check, node is known to be last node in queue
+	{
+		printf("Bus leaving queue: %s", temp->bplate);
+		printf("\nContinue? Press 'y' to confirm, or any other key to return to main.");
+		confirm = getch();
+
+		if (confirm != 'y' && confirm != 'Y')
+		{
+			return;
+		}
+		system("cls");
+
+		printf("Bus has left queue: %s", temp->bplate);
+		total--;
+		free(temp);
+		//bookmark Test reset start to NULL
+		temp = start = NULL;
+		printf("\nQueue is now empty.");
+		getch();
+	}
+}
+
+//------------------------------------------------------------------
+
+void print()
+{
+	printf("The current queue: \n");
+	temp = start;
+	while (temp != NULL)
+	{
+		printf("%s--->", temp->bplate);
+		temp = temp->next;
+	}
+	printf("NULL");
+	getch();
+}
+//----------------------------------------------------
+void search()
+{
+	char searchval[8];
+	int posInQueue = 0;
+	int queueLength = 0;
+	int busFound;
+	int numq = 0;
+	temp = start;
+	while (temp != NULL)
+	{
+		printf("%d.%s \n", numq+1, temp->bplate);
+		temp = temp->next;
+		numq ++;
+	}
+
+
+	if (start == NULL) //Checks if queue is empty 
+	{
+		printf("The queue is empty. \nPress any key to return to Main.");
+		getch();
+		return;
+	}
+
+	printf("\nEnter bus plate number to search: ");
+	scanf("%s", &searchval); fflush(stdin);
+	temp = start;
+
+
+	// dont  use head or gg
+	do
+	{
+		if (strcmp(temp->bplate, searchval) == 0)
+		{
+			posInQueue++;
+			busFound = 1;
+			printf("\n %s Found!", temp->bplate);
+			printf("\n Position in queue: %d", posInQueue);
+			printf("\n Bus plate number: %s", temp->bplate);
+			printf("\n Bus Type: %s", temp->btype);
+			break;
+		}
+		else
+		{
+			posInQueue++;
+			temp = temp->next;
+		}
+	} while (temp != NULL);
+
+	if (busFound != 1)
+	{
+		printf("\nBus does not exist in queue. \nPress any key to return to Main.");
+	}
+	getch();
+}
+//----------------------------------------------------
+void length()
+{
+	int queueLength = 0;
+
+	temp = start;
+	while (temp != NULL)
+	{
+		queueLength++;
+		temp = temp->next;
+	}
+	printf("The queue is %d buses long. \n Press any key to return to main menu.", queueLength);
+	getch();
+}
+
+
+/* *--------------------------------------------------------------* */
+/*              Switch string to integer converstion         */
+//changed previous one to reflect new options
+int stringToNum(char *str)
+{
+	if (strcmp(str, "arrive") == 0 || strcmp(str, "Arrive") == 0)
+	{
+		return 1;
+	}
+	if (strcmp(str, "leave") == 0 || strcmp(str, "Leave") == 0)
+	{
+		return 2;
+	}
+	if (strcmp(str, "search") == 0 || strcmp(str, "Search") == 0)
+	{
+		return 4;
+	}
+	if (strcmp(str, "print") == 0 || strcmp(str, "Print") == 0)
+	{
+		return 3;
+	}
+	if (strcmp(str, "length") == 0 || strcmp(str, "Length") == 0)
+	{
+		return 5;
+	}
+	if (strcmp(str, "exit") == 0 || strcmp(str, "Exit") == 0)
+	{
+		return 6;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+
+//----------------------------------------------------
+void main()
+{
+	int ch;
+	char choice[7];
+
+	do{
+		system("cls");
+		//bookmark
+
+		printf("\n Menu\n\n 1. Arrive \n 2. Leave \n 3. Print \n 4. Search \n 5. Length \n 6. Exit \n\n Choose an operation:");
+		scanf("%s", choice);
+		fflush(stdin);
+		ch = stringToNum(choice);
+
+		system("cls");
+
+		switch (ch)
+		{
+		case 1:
+			arrive();
+			break;
+		case 2:
+			leave();
+			break;
+		case 3:
+			print();
+			break;
+		case 4:
+			search();
+			break;
+		case 5:
+			length();
+			break;
+		case 6:
+			system("cls");
+			printf("\nPress any key to exit...");
+			getch();
+			break;
+		default:
+			printf("Invalid choice!");
+			break;
+		}
+	} while (ch != 6);
+}
+
+//----------------------------------------------------
