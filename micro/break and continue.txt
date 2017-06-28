@@ -1,0 +1,27 @@
+//continue
+//continue skips
+int main()
+{
+	int ctr;
+	for(ctr=1;ctr<=10;ctr++)
+	{
+		if(ctr==5 || ctr ==9)
+			continue;
+		printf("\nHello, %d",ctr);
+	}
+	getch();
+}
+
+//break
+// break exits the loop
+int main()
+{
+	int ctr;
+	for(ctr=1;ctr<=10;ctr++)
+	{
+		if(ctr==5 || ctr ==9)
+			continue;
+		printf("\nHello, %d",ctr);
+	}
+	getch();
+}
